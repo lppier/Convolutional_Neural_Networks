@@ -5,6 +5,8 @@
 This code demonstrates the role of filters in convolutional neural networks
 Two filters are created, a horizontal line filter and a vertical line filter of 7 x 7 pixels each.
 The two filters are used to do convolution with the input images and the output feature images are shown. 
+The code then goes on to use the convenience function tf.layers.conv2d() that combines the filter creation
+and convolution in one step. 
 
 One can observe that the different filters "sieve out" different features in the feature-mapped images. 
 
