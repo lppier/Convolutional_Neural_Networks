@@ -1,7 +1,3 @@
-# This code demonstrates the role of filters in convolutional neural networks
-# Two filters are created, a horizontal line filter and a vertical line filter of 7 x 7 pixels each
-
-
 import tensorflow as tf
 import numpy as np
 import matplotlib.pyplot as plt
