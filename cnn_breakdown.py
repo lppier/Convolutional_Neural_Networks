@@ -33,6 +33,9 @@ filters_test[:, 3, :, 0] = 1
 # Create vertical line filter [row, col, channels, idx]
 filters_test[3, :, :, 1] = 1
 
+plot_image(filters_test[:, :, :, 0])
+plot_image(filters_test[:, :, :, 1])
+
 X = tf.placeholder(tf.float32, shape=(None, height, width, channels))
 convolution = tf.nn.conv2d(X, filters_test, strides=[1, 2, 2, 1], padding="SAME")
 
