@@ -1,4 +1,4 @@
-[logo]:https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/200px-TensorFlowLogo.svg.png "Tensorflow"
+[logo]:https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/200px-TensorFlowLogo.svg.png?raw=true "Tensorflow"
 
 # Exploration of Convolutional Neural Networks
 
