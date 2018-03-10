@@ -24,6 +24,20 @@ def reset_graph(seed=42):
     np.random.seed(seed)
 
 
+def get_model_params():
+    gvars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
+    return {gvar.op.name: value for gvar, value in zip(gvars, tf.get_default_session().run(gvars))}
+
+
+def restore_model_params(model_params):
+    gvar_names = list(model_params.keys())
+    assign_ops = {gvar_name: tf.get_default_graph().get_operation_by_name(gvar_name + "/Assign")
+                  for gvar_name in gvar_names}
+    init_values = {gvar_name: assign_op.inputs[1] for gvar_name, assign_op in assign_ops.items()}
+    feed_dict = {init_values[gvar_name]: model_params[gvar_name] for gvar_name in gvar_names}
+    tf.get_default_session().run(assign_ops, feed_dict=feed_dict)
+
+
 height = 28
 width = 28
 channels = 1
@@ -94,10 +108,14 @@ with tf.name_scope("init_and_save"):
 merged = tf.summary.merge_all()
 log_path = '/tmp/data/logs'
 
-
 mnist = input_data.read_data_sets("/tmp/data/")
-n_epochs = 50
-batch_size = 100
+n_epochs = 5000
+batch_size = 50
+best_loss_val = np.infty
+check_interval = 500
+checks_since_last_progress = 0
+max_checks_without_progress = 20
+best_model_params = None
 
 with tf.Session() as sess:
     train_writer = tf.summary.FileWriter(log_path + '/train', sess.graph)
@@ -107,14 +125,34 @@ with tf.Session() as sess:
         for iteration in range(mnist.train.num_examples // batch_size):
             X_batch, y_batch = mnist.train.next_batch(batch_size)
             sess.run(training_op, feed_dict={X: X_batch, y: y_batch})
+
+            if iteration % check_interval == 0:
+                loss_val = loss.eval(feed_dict={X: mnist.validation.images,
+                                                y: mnist.validation.labels})
+                if loss_val < best_loss_val:
+                    best_loss_val = loss_val
+                    checks_since_last_progress = 0
+                    best_model_params = get_model_params()
+                else:
+                    checks_since_last_progress += 1
+
         summary, acc_train = sess.run([merged, accuracy], feed_dict={X: X_batch, y: y_batch})
         train_writer.add_summary(summary, epoch)
-        summary, acc_test = sess.run([merged, accuracy], feed_dict={X: mnist.test.images, y: mnist.test.labels})
+        summary, acc_validation = sess.run([merged, accuracy],
+                                           feed_dict={X: mnist.validation.images, y: mnist.validation.labels})
         test_writer.add_summary(summary, epoch)
-        print(epoch, "Train accuracy:", acc_train, "Test accuracy:", acc_test)
+        print(epoch, "Train accuracy:", acc_train, "Validation accuracy:", acc_validation, "best loss: ", best_loss_val)
 
-        # save_path = saver.save(sess, "./my_mnist_model")
+        if checks_since_last_progress > max_checks_without_progress:
+            print("Early stopping!")
+            break
+
+    if best_model_params:
+        restore_model_params(best_model_params)
+    acc_test = accuracy.eval(feed_dict={X: mnist.test.images,
+                                        y: mnist.test.labels})
+    print("Final accuracy on test set:", acc_test)
+    # save_path = saver.save(sess, "./my_mnist_model")
 
 train_writer.flush()
 test_writer.flush()
-

@@ -40,3 +40,36 @@ Run in Firefox :
 `tensorboard --logdir=/tmp/data/logs`
 
 Firefox is recommended as the node connections don't seem to appear in the latest versions of Chrome.
+
+# Early Stopping
+
+**minst_cnn_with_tensorboard.py**
+
+In this version of cnn minst, early stopping mechanism is introduced. 
+The validation data is used to validate the training and the loss is measured. 
+
+Every 500 batches of training, we check if the loss is better than the loss we have got so far. If it 
+is better, make a note of it and save the model at this point of time. 
+
+If there are 20 such iterations where there is no perceived improvement in the loss, we stop the training 
+early as there is no point training any further. 
+````
+0 Train accuracy: 0.98 Validation accuracy: 0.979 best loss:  0.071774356  
+1 Train accuracy: 0.98 Validation accuracy: 0.982 best loss:  0.05199903  
+2 Train accuracy: 0.98 Validation accuracy: 0.9824 best loss:  0.043591887  
+3 Train accuracy: 1.0 Validation accuracy: 0.9876 best loss:  0.04349228  
+4 Train accuracy: 1.0 Validation accuracy: 0.9864 best loss:  0.041428853  
+5 Train accuracy: 0.98 Validation accuracy: 0.989 best loss:  0.041428853  
+6 Train accuracy: 1.0 Validation accuracy: 0.9884 best loss:  0.041428853  
+7 Train accuracy: 1.0 Validation accuracy: 0.9892 best loss:  0.041428853  
+8 Train accuracy: 1.0 Validation accuracy: 0.9874 best loss:  0.041428853  
+9 Train accuracy: 1.0 Validation accuracy: 0.9864 best loss:  0.041428853  
+10 Train accuracy: 1.0 Validation accuracy: 0.9882 best loss:  0.041428853  
+11 Train accuracy: 1.0 Validation accuracy: 0.9896 best loss:  0.041428853  
+Early stopping! ` 
+````
+
+We then use this model on the test data to gauge the real world performance. 
+````
+Final accuracy on test set: 0.9902
+````
