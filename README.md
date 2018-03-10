@@ -31,7 +31,7 @@ A demonstration of the
 how to use the tensorflow pipeline. 
 
 # Using Tensorboard
-![Figure 1-2](https://www.tensorflow.org/images/graph_vis_animation.gif "Tensorboard)
+![Figure 1-2](https://www.tensorflow.org/images/mnist_tensorboard.png "Tensorboard)
 
 **minst_cnn_with_tensorboard.py**
 
