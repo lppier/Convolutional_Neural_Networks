@@ -99,6 +99,7 @@ with tf.name_scope("eval"):
     correct = tf.nn.in_top_k(logits, y, 1)
     accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
 tf.summary.scalar('accuracy', accuracy)
+variable_summaries(accuracy)
 
 with tf.name_scope("init_and_save"):
     init = tf.global_variables_initializer()
