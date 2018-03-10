@@ -20,7 +20,23 @@ parameters. This limits the risk of over-fitting and helps the neural network to
 invariance (image shift).
 
 
-**High Accuracy CNN Minst - high_accuracy_cnn_minst.py**
+# High Accuracy CNN Minst 
 
-CNN using the classic Minst dataset - this gives high accuracy of above 99%. A demonstration of the 
-tensorflow pipeline. 
+**high_accuracy_cnn_minst.py**
+
+CNN using the classic Minst dataset - this gives high accuracy of above 99%. 
+A demonstration of the 
+how to use the tensorflow pipeline. 
+
+# Using Tensorboard
+
+**minst_cnn_with_tensorboard.py**
+
+This is the previous minst file with parameters added to generate the graph for Tensorboard.
+To visualize, run tensorboard : 
+
+Run in Firefox : 
+
+`tensorboard --logdir=/tmp/data/logs`
+
+Firefox is recommended as the node connections don't seem to appear in the latest versions of Chrome.

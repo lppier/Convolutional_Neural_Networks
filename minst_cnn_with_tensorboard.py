@@ -1,5 +1,21 @@
+# Run in Firefox : tensorboard --logdir=/tmp/data/logs
+
 import tensorflow as tf
 import numpy as np
+from tensorflow.examples.tutorials.mnist import input_data
+
+
+def variable_summaries(var):
+    """Attach a lot of summaries to a Tensor (for TensorBoard visualization)."""
+    with tf.name_scope('summaries'):
+        mean = tf.reduce_mean(var)
+        tf.summary.scalar('mean', mean)
+        with tf.name_scope('stddev'):
+            stddev = tf.sqrt(tf.reduce_mean(tf.square(var - mean)))
+        tf.summary.scalar('stddev', stddev)
+        tf.summary.scalar('max', tf.reduce_max(var))
+        tf.summary.scalar('min', tf.reduce_min(var))
+        tf.summary.histogram('histogram', var)
 
 
 def reset_graph(seed=42):
@@ -63,29 +79,42 @@ with tf.name_scope("train"):
     loss = tf.losses.sparse_softmax_cross_entropy(labels=y, logits=logits)
     optimizer = tf.train.AdamOptimizer()
     training_op = optimizer.minimize(loss)
+tf.summary.scalar('loss', loss)
 
 with tf.name_scope("eval"):
     correct = tf.nn.in_top_k(logits, y, 1)
     accuracy = tf.reduce_mean(tf.cast(correct, tf.float32))
+tf.summary.scalar('accuracy', accuracy)
 
 with tf.name_scope("init_and_save"):
     init = tf.global_variables_initializer()
     saver = tf.train.Saver()
 
-from tensorflow.examples.tutorials.mnist import input_data
-mnist = input_data.read_data_sets("/tmp/data/")
+# Merge all the summaries and write them out to /tmp/mnist_logs (by default)
+merged = tf.summary.merge_all()
+log_path = '/tmp/data/logs'
 
-n_epochs = 100
+
+mnist = input_data.read_data_sets("/tmp/data/")
+n_epochs = 50
 batch_size = 100
 
 with tf.Session() as sess:
+    train_writer = tf.summary.FileWriter(log_path + '/train', sess.graph)
+    test_writer = tf.summary.FileWriter(log_path + '/test', sess.graph)
     init.run()
     for epoch in range(n_epochs):
         for iteration in range(mnist.train.num_examples // batch_size):
             X_batch, y_batch = mnist.train.next_batch(batch_size)
             sess.run(training_op, feed_dict={X: X_batch, y: y_batch})
-        acc_train = accuracy.eval(feed_dict={X: X_batch, y: y_batch})
-        acc_test = accuracy.eval(feed_dict={X: mnist.test.images, y: mnist.test.labels})
+        summary, acc_train = sess.run([merged, accuracy], feed_dict={X: X_batch, y: y_batch})
+        train_writer.add_summary(summary, epoch)
+        summary, acc_test = sess.run([merged, accuracy], feed_dict={X: mnist.test.images, y: mnist.test.labels})
+        test_writer.add_summary(summary, epoch)
         print(epoch, "Train accuracy:", acc_train, "Test accuracy:", acc_test)
 
-        save_path = saver.save(sess, "./my_mnist_model")
+        # save_path = saver.save(sess, "./my_mnist_model")
+
+train_writer.flush()
+test_writer.flush()
+
