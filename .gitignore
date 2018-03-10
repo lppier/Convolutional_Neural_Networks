@@ -56,3 +56,15 @@ docs/_build/
 
 # PyBuilder
 target/
+
+\.idea/CNN\.iml
+
+\.idea/misc\.xml
+
+\.idea/modules\.xml
+
+\.idea/other\.xml
+
+\.idea/vcs\.xml
+
+\.idea/workspace\.xml
