@@ -1,6 +1,6 @@
 ![Figure 1-1](https://upload.wikimedia.org/wikipedia/commons/thumb/1/11/TensorFlowLogo.svg/200px-TensorFlowLogo.svg.png "Tensorflow")
 
-# Exploration of Convolutional Neural Networks
+# Exploration of Convolutional Neural Networks in Tensorflow
 
 **Convolutional Filters - cnn_breakdown.py**
 
