@@ -76,3 +76,20 @@ We then use this model on the test data to gauge the real world performance.
 ````
 Final accuracy on test set: 0.9902
 ````
+
+# Inception_v3
+
+**inception_v3.py**
+
+Inception_v3 is a pre-trained network consisting of 1001 classes that you can identify. 
+Here we download the model and try to identify a dog.
+
+Top 5 predictions with confidence level
+
+````
+African hunting dog, hyena dog, Cape hunting dog, Lycaon pictus: 94.95%
+hyena, hyaena: 3.48%
+European fire salamander, Salamandra salamandra: 0.03%
+bearskin, busby, shako: 0.02%
+dhole, Cuon alpinus: 0.02%
+````
