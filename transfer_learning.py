@@ -219,7 +219,7 @@ def prepare_batch(flower_paths_and_classes, batch_size):
 X_test, y_test = prepare_batch(flower_paths_and_classes_test, batch_size=len(flower_paths_and_classes_test))
 
 n_epochs = 100
-batch_size = 40
+batch_size = 200
 n_iterations_per_epoch = len(flower_paths_and_classes_train) // batch_size
 INCEPTION_PATH = os.path.join("datasets", "inception")
 INCEPTION_V3_CHECKPOINT_PATH = os.path.join(INCEPTION_PATH, "inception_v3.ckpt")

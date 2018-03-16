@@ -106,5 +106,5 @@ The last layer was replaced by a dense layer which does classification for 5 flo
 
 ````
 Computing final accuracy on the test set (this will take a while)...
-Test accuracy: 0.71114403
+Test accuracy: 0.7315809
 ````
