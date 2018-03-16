@@ -7,6 +7,8 @@ import sys
 import tarfile
 from six.moves import urllib
 import re
+from tensorflow.contrib.slim.nets import inception
+import tensorflow.contrib.slim as slim
 
 width = 299
 height = 299
@@ -64,9 +66,6 @@ class_names = ["background"] + load_class_names()
 
 # Search for all instances of "dog" in class_names
 print("\n".join(s for s in class_names if "dog" in s))
-
-from tensorflow.contrib.slim.nets import inception
-import tensorflow.contrib.slim as slim
 
 reset_graph()
 

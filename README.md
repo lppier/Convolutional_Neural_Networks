@@ -93,3 +93,18 @@ European fire salamander, Salamandra salamandra: 0.03%
 bearskin, busby, shako: 0.02%
 dhole, Cuon alpinus: 0.02%
 ````
+
+# Transfer Learning with Inception_v3
+
+**transfer_learning.py**
+
+Here we leverage on Inception_v3 and apply transfer learning to train classification of flowers. 
+The last layer was replaced by a dense layer which does classification for 5 flower types.
+````
+['daisy', 'dandelion', 'roses', 'sunflowers', 'tulips']
+````
+
+````
+Computing final accuracy on the test set (this will take a while)...
+Test accuracy: 0.71114403
+````
