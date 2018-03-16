@@ -108,3 +108,5 @@ The last layer was replaced by a dense layer which does classification for 5 flo
 Computing final accuracy on the test set (this will take a while)...
 Test accuracy: 0.71114403
 ````
+This supports tensorboard so you can visualize the accuracy over time. 
+This guy seems to have a great accuracy using transfer learning with inception, to reference in future : https://kwotsin.github.io/tech/2017/02/11/transfer-learning.html
